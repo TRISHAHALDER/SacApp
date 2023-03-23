@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "46175494596",
+    "project_id": "sacapp-fba57",
+    "storage_bucket": "sacapp-fba57.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46175494596:android:5bb64d3b868d8e457fc491",
+        "android_client_info": {
+          "package_name": "com.example.sac_event_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46175494596-n453qtoruove3nbei0hcvskpj2s84bg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClWEX-3pBTttw4ek1uaX0u0VtQ7_aXHxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46175494596-n453qtoruove3nbei0hcvskpj2s84bg2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "46175494596-lrf4477510st7a4miokjsl2smor6csmq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sacEventManager"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
