@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
+import 'package:sac_event_manager/utils.dart';
+
 
 class admin extends StatefulWidget {
   const admin({super.key});
@@ -13,8 +16,33 @@ class _adminState extends State<admin> {
   DateTime selectedDateTime = DateTime.now();
   final bool expands = false;
   bool isLoading = false;
+
+  final TextEditingController _descriptionController = TextEditingController();
+  String team1 = "Cse";
+  String team2 = "Ese";
+  String gametype = "cricket";
+  DateTime time = DateTime.now();
+  String des = "welcome";
+  String venue = "OAT";
+
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection('posts');
+    Future<void> addUser() {
+      // Call the user's CollectionReference to add a new user
+      return users
+          .add({
+            'Gametype': gametype, // John Doe
+            'Team1': team1, // Stokes and Sons
+            'Team2': team2,
+            'DateTime': time, 
+            'venue':venue,
+            'Description':des,// 42
+          })
+          .then((value) => print("Event Added"))
+          .catchError((error) => print("Failed to add event: $error"));
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
@@ -61,20 +89,21 @@ class _adminState extends State<admin> {
                       'Basketball',
                       'Badminton',
                       'WeightLifting'
-                    ].map<DropdownMenuItem<String>>((String value) {
+                    ].map<DropdownMenuItem<String>>((String gametype) {
                       return DropdownMenuItem<String>(
-                        value: value,
+                        value: gametype,
                         child: Text(
-                          value,
+                          gametype,
                           style: TextStyle(
                             fontSize: 20,
                           ),
                         ),
                       );
                     }).toList(),
-                    onChanged: (String? newValue) {
+                    onChanged: (value) {
                       setState(() {
-                        dropdownValue = newValue!;
+                        dropdownValue = value!;
+                        gametype = value!;
                       });
                     },
                   ),
@@ -104,6 +133,7 @@ class _adminState extends State<admin> {
                     onDateSelected: (DateTime value) {
                       setState(() {
                         selectedDateTime = value;
+                        time = value;
                       });
                     },
                     selectedDate: selectedDateTime,
@@ -124,6 +154,9 @@ class _adminState extends State<admin> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: TextField(
+                onChanged: (value) {
+                  team1 = value;
+                },
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter Team1',
@@ -143,6 +176,9 @@ class _adminState extends State<admin> {
               ),
               padding: EdgeInsets.only(left: 10, right: 10),
               child: TextField(
+                onChanged: (value) {
+                  team2 = value;
+                },
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter Team2',
@@ -162,6 +198,9 @@ class _adminState extends State<admin> {
               ),
               padding: EdgeInsets.only(left: 10, right: 10),
               child: TextField(
+                 onChanged: (value) {
+                  venue = value;
+                },
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter the Venue here',
@@ -181,6 +220,10 @@ class _adminState extends State<admin> {
               ),
               padding: EdgeInsets.only(left: 10, right: 10),
               child: TextField(
+                 onChanged: (value) {
+                  des = value;
+                },
+                controller: _descriptionController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter Any Description',
@@ -196,6 +239,7 @@ class _adminState extends State<admin> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(primary: Colors.green),
               onPressed: () {
+                addUser();
                 setState(() {
                   isLoading = true;
                 });
@@ -226,24 +270,6 @@ class _adminState extends State<admin> {
                   : const Text('Submit'),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          //   child: ElevatedButton(
-          //      style: ElevatedButton.styleFrom(
-          //        primary: Color.fromARGB(255, 158, 158, 235)),
-
-          //     // child: Text(
-          //     //   'Save',
-          //     //   style: TextStyle(
-          //     //       color: Color.fromARGB(255, 10, 10, 10),
-          //     //       fontWeight: FontWeight.bold,
-          //     //       fontSize: 15),
-          //     // ),
-
-          //      onPressed: () {},
-
-          //   ),
-          // ),
         ]),
       ),
     );

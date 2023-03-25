@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sac_event_manager/adminpage.dart';
+import 'package:sac_event_manager/adminpage.dart';
+import 'package:sac_event_manager/user.dart';
+import 'package:sac_event_manager/resources/auth_methods.dart';
+import 'package:sac_event_manager/adminpage.dart';
+import 'package:sac_event_manager/utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -8,6 +13,38 @@ class LoginPage extends StatefulWidget {
 }
 
 class _MyLoginState extends State<LoginPage> {
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  bool _isLoading = false;
+  @override
+  void dispose() {
+    super.dispose();
+    _emailcontroller.dispose();
+    _passwordcontroller.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().loginUser(
+      email: _emailcontroller.text,
+      password: _passwordcontroller.text,
+    );
+    if (res == "success") {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const admin(),
+        ),
+      );
+    } else {
+      showSnackBar(res, context);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   bool valuefirst = false;
   @override
   Widget build(BuildContext context) {
@@ -47,12 +84,14 @@ class _MyLoginState extends State<LoginPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 247, 249, 249),
-                      border: Border.all(color: Color.fromARGB(255, 214, 205, 205)),
+                      border:
+                          Border.all(color: Color.fromARGB(255, 214, 205, 205)),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 18.0),
                       child: TextField(
+                        controller: _emailcontroller,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Username',
@@ -67,12 +106,14 @@ class _MyLoginState extends State<LoginPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 249, 250, 250),
-                      border: Border.all(color: Color.fromARGB(255, 197, 191, 191)),
+                      border:
+                          Border.all(color: Color.fromARGB(255, 197, 191, 191)),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 18.0),
                       child: TextField(
+                        controller: _passwordcontroller,
                         obscureText: true,
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -88,12 +129,11 @@ class _MyLoginState extends State<LoginPage> {
                   child: Container(
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
+                        border: Border.all(color: Colors.grey),
                         color: Color.fromARGB(255, 6, 6, 6),
-                        borderRadius: BorderRadius.circular(15)
-                        ),
-                        height: 60,
-                        width:300,
+                        borderRadius: BorderRadius.circular(15)),
+                    height: 60,
+                    width: 300,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           primary: const Color(0xFF06061C)),
@@ -105,8 +145,7 @@ class _MyLoginState extends State<LoginPage> {
                             fontSize: 15),
                       ),
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const admin()));
+                        loginUser();
                       },
                     ),
                   ),
@@ -124,9 +163,9 @@ class _MyLoginState extends State<LoginPage> {
                       },
                     ),
                     SizedBox(width: 1),
-                    Text('Not a member?'),
+                    Text('Are you admin?'),
                     Text(
-                      'Register Now',
+                      'Yes ,I am admin',
                       style: TextStyle(
                         color: Color.fromARGB(255, 30, 42, 169),
                       ),
