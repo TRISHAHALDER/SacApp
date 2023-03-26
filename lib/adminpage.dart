@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sac_event_manager/utils.dart';
 
 
@@ -24,7 +25,7 @@ class _adminState extends State<admin> {
   DateTime time = DateTime.now();
   String des = "welcome";
   String venue = "OAT";
-
+  String formattedDate = DateFormat.yMMMd().format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('posts');
@@ -38,6 +39,7 @@ class _adminState extends State<admin> {
             'DateTime': time, 
             'venue':venue,
             'Description':des,// 42
+            'Date':formattedDate,
           })
           .then((value) => print("Event Added"))
           .catchError((error) => print("Failed to add event: $error"));
@@ -103,7 +105,7 @@ class _adminState extends State<admin> {
                     onChanged: (value) {
                       setState(() {
                         dropdownValue = value!;
-                        gametype = value!;
+                        gametype = value;
                       });
                     },
                   ),

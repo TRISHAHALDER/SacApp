@@ -27,6 +27,7 @@ class _MyLoginState extends State<LoginPage> {
     setState(() {
       _isLoading = true;
     });
+    
     String res = await AuthMethods().loginUser(
       email: _emailcontroller.text,
       password: _passwordcontroller.text,
@@ -44,7 +45,7 @@ class _MyLoginState extends State<LoginPage> {
       _isLoading = false;
     });
   }
-
+  
   bool valuefirst = false;
   @override
   Widget build(BuildContext context) {
