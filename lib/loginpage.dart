@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sac_event_manager/adminpage.dart';
 import 'package:sac_event_manager/adminpage.dart';
-import 'package:sac_event_manager/user.dart';
+//import 'package:sac_event_manager/user.dart';
 import 'package:sac_event_manager/resources/auth_methods.dart';
 import 'package:sac_event_manager/adminpage.dart';
 import 'package:sac_event_manager/utils.dart';
