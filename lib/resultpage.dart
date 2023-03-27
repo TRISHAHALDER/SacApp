@@ -1,97 +1,109 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sac_event_manager/resultpage.dart';
 import 'package:sac_event_manager/utils.dart';
 import 'color.dart' as color;
 
-class admin extends StatefulWidget {
-  const admin({super.key});
+class resultpage extends StatefulWidget {
+  const resultpage({super.key});
 
   @override
-  State<admin> createState() => _adminState();
+  State<resultpage> createState() => _resultpageState();
 }
 
-class _adminState extends State<admin> {
-  String dropdownValue = 'Cricket';
-  DateTime selectedDateTime = DateTime.now();
+class _resultpageState extends State<resultpage> {
   final bool expands = false;
   bool isLoading = false;
-
+ String dropdownValue = 'Cricket';
+  DateTime selectedDateTime = DateTime.now();
   final TextEditingController _descriptionController = TextEditingController();
-  String team1 = "None";
-  String team2 = "None";
-  String gametype = "cricket";
+  String r1 = "none";
+  String r2 = "none";
+  String wi = "none";
+  String team1="None";
+  String team2="None";
+  String gametype="Cricket";
   DateTime time = DateTime.now();
-  String des = "welcome";
-  String venue = "OAT";
-  //String formattedDate = DateFormat.yMMMd().format(DateTime.now());
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('posts');
+    CollectionReference res = FirebaseFirestore.instance .collection('results');
     Future<void> addUser() {
       // Call the user's CollectionReference to add a new user
-      return users
+      return res
           .add({
-            'Gametype': gametype, 
-            'Team1': team1, 
-            'Team2': team2,
-            'DateTime': time, 
-            'venue':venue,
-            'Description':des,// 42
+            'Gametype': gametype,
+            'team1':team1,
+            'team2':team2,
+            'winner': wi,
+             'DateTime': time,
+            '1st runner up': r1,
+            'second runner up': r2,
             'Date':DateFormat.yMMMd().format(time),
+
           })
-          .then((value) => print("Event Added"))
-          .catchError((error) => print("Failed to add event: $error"));
+          .then((value) => print("Result Added"))
+          .catchError((error) => print("Failed to add result: $error"));
     }
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
-          Row(
-            children: [
-              Container(
-                child: Text(
-                  "Admin Page",
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.blue),
-                ),
-                padding: EdgeInsets.only(
-                  left: 10,
-                  top: 30,
+          Container(
+            child: Text(
+              "Result Page",
+              style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blue),
+            ),
+            padding: EdgeInsets.only(
+              left: 10,
+              top: 30,
+            ),
+          ),
+           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 154, 165, 224),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: TextField(
+                onChanged: (value) {
+                  team1 = value;
+                },
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Enter team1',
                 ),
               ),
-              Expanded(child: Container()),
-              Padding(
-                padding: const EdgeInsets.only(top: 25,right: 20),
-                child: Column(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const resultpage()));
-                      },
-                          icon: Icon(
-                            Icons.arrow_forward,
-                            size: 32,
-                            color: color.AppColor.homeColorIcon,
-                          ),
-                        ),
-                        Text('Add result'),
-                      ],
-                    ),
-              ),
-            ],
+            ),
           ),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
-          Container(
+           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 154, 165, 224),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: TextField(
+                onChanged: (value) {
+                  team2 = value;
+                },
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Enter Team2',
+                ),
+              ),
+            ),
+          ),
+           Container(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -174,6 +186,8 @@ class _adminState extends State<admin> {
           SizedBox(
             height: 15,
           ),
+         
+         
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -184,11 +198,11 @@ class _adminState extends State<admin> {
               ),
               child: TextField(
                 onChanged: (value) {
-                  team1 = value;
+                  wi = value;
                 },
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter Team1',
+                  hintText: 'Enter Winner name',
                 ),
               ),
             ),
@@ -206,11 +220,11 @@ class _adminState extends State<admin> {
               padding: EdgeInsets.only(left: 10, right: 10),
               child: TextField(
                 onChanged: (value) {
-                  team2 = value;
+                  r1 = value;
                 },
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter Team2',
+                  hintText: 'Enter 1st runner up',
                 ),
               ),
             ),
@@ -227,38 +241,18 @@ class _adminState extends State<admin> {
               ),
               padding: EdgeInsets.only(left: 10, right: 10),
               child: TextField(
-                 onChanged: (value) {
-                  venue = value;
+                onChanged: (value) {
+                  r2 = value;
                 },
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter the Venue here',
+                  hintText: 'Enter 2nd runner up',
                 ),
               ),
             ),
           ),
           SizedBox(
             height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 154, 165, 224),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: TextField(
-                 onChanged: (value) {
-                  des = value;
-                },
-                controller: _descriptionController,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter Any Description',
-                ),
-              ),
-            ),
           ),
           SizedBox(height: 20),
           Container(
