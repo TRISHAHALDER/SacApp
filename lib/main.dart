@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sac_event_manager/homePage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:sac_event_manager/result.dart';
 import 'package:sac_event_manager/search2.dart';
 import 'package:sac_event_manager/testfetch.dart';
 import 'package:sac_event_manager/fetch.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: resultshow(),
     );
   }
 }
