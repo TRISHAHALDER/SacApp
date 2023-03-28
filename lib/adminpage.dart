@@ -227,8 +227,8 @@ class _adminState extends State<admin> {
               ),
               padding: EdgeInsets.only(left: 10, right: 10),
               child: TextField(
-                 onChanged: (value) {
-                  venue = value;
+                 onChanged: (value1) {
+                  venue = value1;
                 },
                 decoration: InputDecoration(
                   border: InputBorder.none,
